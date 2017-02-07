@@ -1,0 +1,176 @@
+---
+title: "Final Project - cleaning data"
+author: "Yoolim Jin, 22612692"
+date: "2015년 11월 23일"
+output: html_document
+---
+Cleaning data for World Bank
+```{r, eval = TRUE}
+setwd("/Users/Yoolim_Jin/Desktop/Final_Project/raw")
+raw <- read.csv("Data_Extract_From_World_Development_Indicators_Data.csv", stringsAsFactors = FALSE)
+#clean out countries that don't have unemployment data
+#set easier columns to select in the data.frame
+titles <- c('series.name', 'series.code', 'country.name', 'country.code', 1990, 2000, 2006:2015)
+names(raw) <- titles
+#set unnecessary columns in a vector to delete them
+delete_columns <- c('series.name', 'series.code', 'country.code', 1990, 2000, 2006, 2014:2015)
+raw <- setdiff(raw, raw[, delete_columns])
+View(raw)
+#delete samples that does not have data
+population <- raw[-which(raw$`2007` == '..'),]
+View(population)
+```
+Function for cleaning data for Google Files
+```{r, eval = TRUE}
+clean_data <- function(x, directory = "/Users/Yoolim_Jin/Desktop/Final_Project/clean/") {
+  raw <- read.table(x, skip = 4, fill = TRUE, sep = ',', header = TRUE)
+  raw1 <- raw[1:grep("Top subregion", raw$Week) - 1, ]
+  split_dates <- function(y) {
+    return(matrix(unlist(strsplit(y, ' - ')), ncol = 2, byrow = TRUE))
+  }
+  raw1$Week <- as.character(raw1$Week)
+  a <- as.data.frame(split_dates(raw1$Week))
+  newdf <- cbind(a, as.numeric(raw1[, 2]))
+  names(newdf) <- c('from', 'to', names(raw1)[2])
+  newdf$from <- as.Date(newdf$from)
+  newdf$to <- as.Date(newdf$to)
+  newdf$from_year <- as.numeric(format(newdf$from, format = '%Y'))
+  newdf$to_year <- as.numeric(format(newdf$to, format = '%Y'))
+  newdf$from_month <- as.numeric(format(newdf$from, format = '%m'))
+  newdf$to_month <- as.numeric(format(newdf$to, format = '%m'))
+  newdf$from_day <- as.numeric(format(newdf$from, format = '%d'))
+  newdf$to_day <- as.numeric(format(newdf$to, format = '%d'))
+  write.csv(newdf, paste0(directory, "/clean_", x))
+} 
+```
+Cleaning data for Google Files(unemployment)
+```{r}
+setwd("/Users/Yoolim_Jin/Desktop/Final_Project/raw/google/inflation")
+inf_wd <- "/Users/Yoolim_Jin/Desktop/Final_Project/clean/google/inflation"
+clean_data('inf_Nigeria.csv', directory = inf_wd)
+clean_data('inf_Canada.csv', directory = inf_wd)
+clean_data('inf_South_Africa.csv', directory = inf_wd)
+clean_data('inf_US.csv', directory = inf_wd)
+```
+Cleaning data for Google Files(unemployment)
+```{r}
+setwd("/Users/Yoolim_Jin/Desktop/Final_Project/raw/google/unemployment")
+emp_wd <- "/Users/Yoolim_Jin/Desktop/Final_Project/clean/google/unemployment"
+clean_data('unemp_Canada.csv', directory = emp_wd)
+clean_data('unemp_Nigeria.csv', directory = emp_wd)
+clean_data('unemp_South_Africa.csv', directory = emp_wd)
+clean_data('unemp_US.csv', directory = emp_wd)
+```
+
+```{r, eval = TRUE}
+#Cleaning out the Google Files
+setwd("/Users/Yoolim_Jin/Desktop/Final_Project/raw/google/inflation")
+#Clean out the first 4 lines of the file
+canada_raw <- read.table("Canada.csv", skip = 4, fill = TRUE, sep = ',', header = TRUE)
+View(canada_raw)
+#Clean out whichever isn't the relative-frequency data, and separate the columns
+canada_raw <- canada_raw[1:grep("Top subregion", canada_raw$Week)-1, ]
+#Function to split dates and eliminate "-"
+split_dates <- function(x) {
+  return(matrix(unlist(strsplit(x, " - ")), ncol = 2, byrow = TRUE))
+}
+#apply it to "Weeks" column after changing it to character strings
+canada_raw$Week <- as.character(canada_raw$Week)
+x <- as.data.frame(split_dates(canada_raw$Week))
+#create a new dataframe based on the new data.
+newdf_canada <- cbind(x, as.numeric(canada_raw$inflation))
+names(newdf_canada) <- c('from', 'to', 'inflation')
+View(newdf_canada)
+#Change 'from' and 'to' columns as Date formats
+newdf_canada$from <- as.Date(newdf_canada$from)
+newdf_canada$to <- as.Date(newdf_canada$to)
+newdf_canada
+#Add new columns 'from_year', 'to_year', 'from_month', 'to_month', 'from_day', 'to_day'
+newdf_canada$from_year <- as.numeric(format(newdf_canada$from, format = "%Y"))
+newdf_canada$to_year <- as.numeric(format(newdf_canada$to, format = "%Y"))
+newdf_canada$from_month <- as.numeric(format(newdf_canada$from, format = "%m"))
+newdf_canada$to_month <- as.numeric(format(newdf_canada$to, format = "%m"))
+newdf_canada$from_day <- as.numeric(format(newdf_canada$from, format = "%d"))
+newdf_canada$to_day <- as.numeric(format(newdf_canada$to, format = "%d"))
+#And we have a clean data frame of Canada
+View(newdf_canada)
+#Save it to the clean dataset working directory
+setwd("/Users/Yoolim_Jin/Desktop/Final_Project/clean/google/Inflation")
+write.csv(newdf_canada, "/Users/Yoolim_Jin/Desktop/Final_Project/clean/google/Inflation/inf_canada_clean.csv")
+```
+
+```{r}
+#Function to calculate average frequency of years
+#Idea : 
+#1) If the years of 'from' and 'to' are the same, store it into the year vector
+#2) If the years of 'from' and 'to' are different, (eg. 2004-12-26, 2005-01-01)
+#   find the weighted average for that year, and store it to the different year vectors
+#3) Find the sum of each year and divide it by the number of days of that year to find the average
+#calc_yearave <- function(x) {
+#  for 
+#  if(x$from_year == x$to_year) {
+#    a <- 
+#  }
+#}
+#x is the row numbers that have the same years
+x <- which(newdf_canada$from_year == 2004 & newdf_canada$to_year == 2004)
+#y is the row numbers that have different years
+y <- setdiff(which(newdf_canada$from_year == 2004 | newdf_canada$to_year == 2004), x)
+#function for calculating the average per day
+a <- NULL
+for (i in 1:length(x)) {
+  a[i] <- newdf_canada[x[i], 'inflation']
+}
+#a*7 because we want the sum of individual days
+sum1 <- sum(a*7)
+#function for calculating the weighted average per day for unmatching years
+b <- NULL
+for (i in 1:length(y)) {
+  if(newdf_canada[y[i], 'from_year'] == 2004) {
+    b[i] <- (31 - newdf_canada[y[i], 'from_day'] + 1) * newdf_canada[y[i], 'inflation']
+  } else if(newdf_canada[y[i], 'to_year'] == 2004) {
+    b[i] <- newdf_canada[y[i], 'from_day'] * newdf_canada[y[i], 'inflation']
+  }
+}
+sum2 <- sum(b)
+#weighted frequency of the year
+(sum1 + sum2)/365
+#Number of days in a year form 2004 to 2013
+b <- NULL
+for (i in 2005:2013) {
+  b[i-2004] <- as.numeric(as.Date(paste(i, 12, 31, sep = "-")) - as.Date(paste(i, 1, 1, sep = "-"))+1)
+}
+b
+#Thus the weighted average of 
+```
+
+!!!Complete function for taking the weighted average of relative frequency per year!!!
+```{r}
+rel_freq <- function(x) { #x is the clean data_frame
+  y <- NULL
+  for (i in 2007:2013) {
+    a <- which(x$from_year == i & x$to_year == i)
+    b <- NULL
+    for (j in 1:length(a)) {
+      b[j] <- x[a[j], 'inflation']
+    } 
+    sum1 <- sum(b*7)
+    c <- setdiff(which(x$from_year == i | x$to_year == i), a)
+    d <- NULL
+    for (k in 1:length(c)) {
+      if(x[c[k], 'from_year'] == i) {
+        d[k] <- (31 - x[c[k], 'from_day'] + 1) * x[c[k], 'inflation']
+      } else if(x[c[k], 'to_year'] == i) {
+        d[k] <- x[c[k], 'from_day'] * x[c[k], 'inflation']
+      }
+    } 
+    sum2 <- sum(d)
+    e <- as.numeric(as.Date(paste(i, 12, 31, sep = '-')) - as.Date(paste(i, 1, 1, sep = '-')) + 1)
+    y[i - 2006] <- (sum1 + sum2)/e
+  } 
+  names(y) <- 2007:2013
+  return(y)
+}
+rel_freq(newdf_canada)
+```
+

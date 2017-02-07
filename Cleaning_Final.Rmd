@@ -1,0 +1,91 @@
+---
+title: "Final Project - cleaning data"
+author: "yoolim_jin, 22612692"
+date: "2015년 11월 23일"
+output: 
+  pdf_document: 
+    latex_engine: xelatex
+---
+Cleaning data for World Bank(Inflation)
+```{r, eval = TRUE}
+clean_wrldinf <- function(rawdirc, x, directory = "./data/") {
+  raw <- read.csv(paste0(rawdirc, "/", x), skip = 4, stringsAsFactors = FALSE)
+  newdf <- raw[which(grepl("Canada|New Zealand|South Africa|United States", 
+                raw$Country.Name) == TRUE), c("Country.Name", paste0("X", 2006:2013))]
+  names(newdf) <- c("Country", 2006:2013)
+  rownames(newdf) <- NULL
+  newdf <- t(newdf)[-1, ]
+  colnames(newdf) <- c("Canada", "New Zealand", "United States", "South Africa")
+  write.csv(newdf, paste0(directory, "/clean_", x))
+}
+```
+Cleaning 
+```{r}
+rawdirc <- "./rawdata/Worldbank/Inflation"
+inf_dir <- "./data/Worldbank/Inflation"
+clean_wrldinf(rawdirc, x = "world_inflation.csv", directory = inf_dir)
+```
+Cleaning Data for World Bank(Unemployment)
+```{r}
+clean_wrldunempl <- function(rawdirc, x, directory = "./data/") {
+  raw <- read.csv(paste0(rawdirc, '/', x), stringsAsFactors = FALSE)
+  newdf <- raw[which(grepl("Canada|New Zealand|South Africa|United States", 
+                raw$Country.Name) == TRUE), c("Country.Name", 
+                paste0("X", 2006:2013 ,"..", "YR", 2006:2013, "."))]
+  names(newdf) <- c("Country", 2006:2013)
+  rownames(newdf) <- NULL
+  newdf <- t(newdf) [-1, ]
+  colnames(newdf) <- c("Canada", "New Zealand", "South Africa", "United States")
+  write.csv(newdf, paste0(directory, "/clean_", x))
+}
+```
+Cleaning
+```{r}
+rawdirc <- './rawdata/worldbank/unemployment'
+clean_wrldunempl(rawdirc, "World_Unemployment.csv",
+              directory = "~/Desktop/Project/data/Worldbank/Unemployment")
+```
+
+Function for cleaning data for Google Files
+```{r, eval = TRUE}
+clean_data <- function(rawdirc, x, directory = "./data/") {
+  raw <- read.table(paste0(rawdirc, '/', x), skip = 4, fill = TRUE, 
+                           sep = ',', header = TRUE, quote = "")
+  raw1 <- raw[1:grep("Top subregion", raw[, 1]) - 1, ]
+  colnames(raw1) <- c("Week", "data")
+  split_dates <- function(y) {
+    return(matrix(unlist(strsplit(y, ' - ')), ncol = 2, byrow = TRUE))
+  }
+  raw1$Week <- as.character(raw1$Week)
+  a <- as.data.frame(split_dates(raw1$Week))
+  newdf <- cbind(a, as.numeric(raw1[, 2]))
+  names(newdf) <- c('from', 'to', names(raw1)[2])
+  newdf$from <- as.Date(newdf$from)
+  newdf$to <- as.Date(newdf$to)
+  newdf$from_year <- as.numeric(format(newdf$from, format = '%Y'))
+  newdf$to_year <- as.numeric(format(newdf$to, format = '%Y'))
+  newdf$from_month <- as.numeric(format(newdf$from, format = '%m'))
+  newdf$to_month <- as.numeric(format(newdf$to, format = '%m'))
+  newdf$from_day <- as.numeric(format(newdf$from, format = '%d'))
+  newdf$to_day <- as.numeric(format(newdf$to, format = '%d'))
+  write.csv(newdf, paste0(directory, "/clean_", x))
+} 
+```
+Cleaning data for Google Files(inflation)
+```{r}
+rawdirc <- "./rawdata/google/inflation"
+inf_wd <- "./data/google/inflation"
+clean_data(rawdirc, 'inf_Canada.csv', directory = inf_wd)
+clean_data(rawdirc, 'inf_South_Africa.csv', directory = inf_wd)
+clean_data(rawdirc, 'inf_US.csv', directory = inf_wd)
+clean_data(rawdirc, 'inf_NZ.csv', directory = inf_wd)
+```
+Cleaning data for Google Files(unemployment)
+```{r}
+rawdirc <- "./rawdata/google/unemployment"
+emp_wd <- "./data/google/unemployment"
+clean_data(rawdirc, 'unemp_Canada.csv', directory = emp_wd)
+clean_data(rawdirc, 'unemp_South_Africa.csv', directory = emp_wd)
+clean_data(rawdirc, 'unemp_US.csv', directory = emp_wd)
+clean_data(rawdirc, 'unemp_NZ.csv', directory = emp_wd)
+```

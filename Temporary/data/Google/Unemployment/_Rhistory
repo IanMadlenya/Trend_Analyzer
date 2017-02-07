@@ -1,0 +1,512 @@
+hi(s)
+hi()
+hi(s)
+is_positive <- function(x) { if (x > 0) TRUE else FALSE
+}
+is_positive(NA)
+is_positive(TRUE)
+is_positive("positive")
+"positive" == 1
+"positive"
+is_positive("live")
+is.positive(1:5)
+is_positive(1:5)
+as.numeric("positve")
+as.logical("positive")
+is_positive(NA)
+is_positive("live")
+describe <- function(x) { x_min <- min(x)
+x_max <- max(x)
+x_mean <- mean(x)
+x_sd <- sd(x)
+return(c(x_min, x_max, x_mean, x_sd)) }
+describe(1:10)
+describe <- function(x) {
+x_min <- min(x)
+x_max <- max(x)
+x_mean <- mean(x)
+x_sd <- sd(x)
+value <- c(x_min, x_max, x_mean, x_sd)
+names(value) <- c('min', 'max', 'mean', 'sd')
+return(value)
+}
+describe(1:10)
+x <- 3
+x == pi
+View(cars)
+cars[type == "small"]
+cars[, type == "small"]
+cars[ ,"small"]
+cars[, type = 'small']
+cars[, type == 'small']
+cars$type == "small"
+cars[cars$type == "small", ]
+?plot
+plot(cars$type)
+plot(cars$type, cars$price)
+plot(cars$type, cars$price, cars$mpgCity)
+plot(cars$type, cars$price, cars$mpgCity)
+plot(cars$type)
+plot(cars$type, cars$price, cars$mpgCity)
+vec <- c(1, 2, 3, 4, 5)
+vec <- c(0, 1, 4, 5, -1)
+for(k in 1:5) {
+vec[k] <- vec[k] + 1
+}
+vec
+mccb <- data.frame(high = c(.1, .6, .3), sat = c(.3, .3, .4), unsat = c(.6, .1, .3), row.names = c("New customers", "Old customers", "Regular Customers"))
+mccb
+mccb * .65
+mccb1 <- mccb * sat_cont
+sat_cont <- .65 #Exhibit 10 -> 65% thinks fast, efficient service is important = Satisfaction Contribution
+mccb1 <- mccb * sat_cont
+mccb1
+mccb1[, c("sat", "unsat")]
+mccb 2 <- mccb1[, c("sat", "unsat")]
+mccb2 <- mccb1[, c("sat", "unsat")]
+mccb2
+mccb2[1,]
+mccb2[1,] * .27
+mccb2[2,] * .23
+mccb2[3,] * .50
+mccb2 <- .1 * mccb1[, c("sat", "unsat")]
+mccb2[1,] * .27
+mccb2[2,] * .23
+mccb2[3,] * .50
+x <- mccb2[1,] * .27
+y <- mccb2[2,] * .23
+z <- mccb2[3,] * .50
+mccb3 <- data.frame(x, y, z)
+mccb3
+mccb3 <- rbind(x, y, z)
+mccb3
+View(mccb)
+vec <- c(1,308.7, 1,686.8, 2,177.6, 2,649.0, 3,288.9)
+vec2 <- c(vec[2]/vec[1], vec[3]/vec[2], vec[4]/vec[3], vec[5]/vec[4])
+vec2
+mean(vec2)
+vec2 <- c((vec[2]-vec[1])/vec[1], (vec[3]-vec[2])/vec[2], (vec[4]-vec[3])/vec[3], (vec[5]-vec[4])/vec[4])
+vec2
+(vec[2]-vec[1])/vec[1]
+(vec[2]-vec[1])
+(vec[2]-vec[1])/vec[1]
+(vec[2]-vec[1])/(vec[1])
+307.7/1308.7
+(vec[3]-vec[2])
+vec <- c(1308.7, 1686.8, 2177.6, 2649.0, 3288.9)
+vec2 <- c((vec[2]-vec[1])/vec[1], (vec[3]-vec[2])/vec[2], (vec[4]-vec[3])/vec[3], (vec[5]-vec[4])/vec[4])
+vec2
+mean(vec2)
+3288.9*(1+mean(vec2))
+expected_2003 <- 3288.9*(1+mean(vec2))
+x <- c(10, 30, 60)
+y <- c(60, 30, 10)
+z <- c(30, 40, 30)
+x <- x * .27
+y <- y * .23
+z <- z * .5
+x
+data.frame(x, y, z)
+df <- data.frame(x, y, z)
+df
+sum(df[, x])
+df[,x]
+df[,'x']
+sum(df[,'x'])
+sum(df[,'y'])
+sum(df[,'z'])
+3.9*12*3.88
+# Ch 11, Rice #36:
+# ==================
+# Ch 11, Rice #36:
+dgeom(0, 0.5)
+dgeom(1, 0.5)
+dgeom(2, 0.5)
+dgeom(0, 0.6)
+dgeom(1, 0.6)
+dgeom(2, 0.6)
+.5/.6
+.25/.24
+.125/.096
+0:7
+y <- 0
+y <- 0
+y <- 1
+for (i in 0:7) {
+y[i + 1] <- dgeom(i, 0.5)
+}
+y
+sum(y)
+1-sum(y)
+for (i in 0:7) {
+y[i + 1] <- dgeom(i, 0.6)
+}
+y
+sum(y)
+1-sum(y)
+qnorm(1.445)
+?norm
+dnorm(1.445)
+1-dnorm(1.445)
+sample_meandiff <- mean(x) - mean(y)
+n<- length(x)
+m <- length(y)
+s_x2<- var(x)
+s_y2<- var(y)
+x<- c(41.0,25.9,13.1,-16.9,15.4,22.4,29.4,26.0,38.4,21.9,27.3,17.4,27.4,17.7,21.4,26.6,24.9,18.3,28.5,
+21.8,19.2,26.0,22.7)
+y<- c(10.1,7.3,-9.9,17.9,6.6,39.9,-14.7,-9.0,6.1,14.3,6.8,-12.9,12.1,-15.9,44.1,20.4,15.5,28.2,14.0,
+15.7,54.6,-9.0)
+sample_meandiff <- mean(x) - mean(y)
+n<- length(x)
+m <- length(y)
+s_x2<- var(x)
+s_y2<- var(y)
+r_unequalvar <- c(qt(0.025, df = min(c(n-1, m-1)), qt(0.975, df = min(c(n-1, m-1)))
+r_unequalvar <- c(qt(0.025, df = min(c(n-1, m-1)), qt(0.975, df = min(c(n-1, m-1))))
+r_unequalvar <- c(qt(0.025, df = min(c(n-1, m-1)), qt(0.975, df = min(c(n-1, m-1))))
+r_unequalvar <- c(qt(0.025, df = min(c(n-1, m-1)), qt(0.975, df = min(c(n-1, m-1)))))
+r_unequalvar <- c(qt(0.025, df = min(c(n-1, m-1)), qt(0.975, df = min(c(n-1, m-1)))))
+r_unequalvar
+pvalue_unequalvar <- pt(abs(t_unequalvar),df=min(c(n-1, m-1)))
+t_unequalvar <- sample_meandiff/se_unequalvar
+t_unequalvar
+t_unequalvar <- sample_meandiff/se_unequalvar
+se_unequalvar <- sqrt(s_x2/n+s_y2/m)
+se_unequalvar
+t_unequalvar <- sample_meandiff/se_unequalvar
+t_unequalvar
+r_unequalvar <- c(qt(0.025, df = min(c(n-1, m-1)), qt(0.975, df = min(c(n-1, m-1)))))
+r_unequalvar
+pvalue_unequalvar <- pt(abs(t_unequalvar),df=min(c(n-1, m-1)))
+pvalue_unequalvar
+sample_meandiff
+se_unequalvar <- sqrt(s_x2/n + s_y2/m)
+se_unequalvar
+t.test(x , y, alternative = "two.sided", var.equal = FALSE)
+t.test(x , y, alternative = "two.sided", var.equal = FALSE)
+qtuckey(0.95, 5, 10)
+install.packages("TukeyC")
+qtukey(0.95, 5, 10)
+IndependentVar <- c(1,93,1,104,1,104,1,126,1,98,1,99,1,94,1,96,
+1,124,1,73,1,110,1,90,1,104,1,81,1,106,1,113,1,129,1,97,1,
+101,1,91,1,100,1,123,1,88,1,117,1,107,1,105,1,86,1,131,1,
+95,1,98)
+DependentVar <- c(1769,1740,1941,2367,2467,1640,1756,1706,
+1767,1200,1706,1985,1555,1749,2056,1729,2186,1858,1819,
+1350,2030,2550,1544,1766, 1937,1691,1623,1791,2001,1874)
+X <- matrix(IndependentVar, ncol = 2, byrow = T)
+X
+Y <- matrix(DependentVar, ncol = 1, byrow = T)
+Y
+XPrime <- t(X) #transposing X
+XPrime <- t(X) #transposing X
+YPrime <- t(Y) #transposing Y
+XPrime
+n <- c(30)
+I <- matrix(0, nrow = n, ncol = n)
+I[row(I) == col(I)] <- 1
+I
+J <- matrix(1, nrow = n, ncol = n)
+XXPrime <- XPrime%*%X       #here we define X’X
+Inverse <- solve(XXPrime)   #here we have (X’X)^(-1)
+H <- X%*%Inverse%*%XPrime
+XXPrime
+tablets
+getwd()
+tablets <- read.csv("tablets2.csv")
+tablets
+tablets[1, ]
+tablets[, 1]
+for (i in 1:7) {
+mean_vec[i] <- tablets[, i]
+}
+mean_vec <- NULL
+for (i in 1:7) {
+mean_vec[i] <- tablets[, i]
+}
+mean_vec
+for (i in 1:7) {
+mean_vec[i] <- mean(tablets[, i])
+mean_vec <- NULL
+mean_vec <- NULL
+for (i in 1:7) {
+mean_vec[i] <- mean(tablets[, i])
+}
+mean_vec
+tablets <- read.csv("tablets2.csv")
+tablets
+mean_vec <- NULL
+for (i in 1:7) {
+mean_vec[i] <- mean(tablets[, i])
+}
+mean_vec
+ss_within <- NULL
+ss <- NULL
+for (i in 1:7) {
+for (j in 1:10) {
+ss[i] <- sum((tablets[j, i] - mean_vec[i])^2)
+}
+}
+ss
+ss_col <- NULL
+ss_col <- NULL
+for (i in 1:7) {
+for (j in 1:10) {
+ss_col[i] <- sum((tablets[j, i] - mean_vec[i])^2)
+}
+}
+ss_within <- sum(ss_col)
+ss_withink
+ss_within
+s_pooled <- ss_within/(I*(J-1))
+s_pooled
+source('~/.active-rstudio-document', echo=TRUE)
+ss_within
+I <- 7
+J <- 10
+s_pooled <- ss_within/(I*(J-1))
+s_pooled
+df <- I*(J-1)
+qtuckey(0.95, 7, 63)
+library("TukeyC", lib.loc="/Library/Frameworks/R.framework/Versions/3.2/Resources/library")
+qtuckey(0.95, 7, 63)
+qtuckey()
+qtuckey(0.95, 5, 10)
+qtukey(0.95, 7, 63)
+qtukey(0.95, 7, df)
+combn(7, 2)
+source('~/.active-rstudio-document', echo=TRUE)
+comb
+comb
+comb<- combn(7, 2)
+comb
+comb[1, 1]
+comb[1, 2]
+comb[1, 1]
+comb[2, 1]
+D-_bar <- NULL
+D_bar <- NULL
+sum <- NULL
+sum(1, 2)
+sum_value <- NULL
+for (i in 1:21) {
+for (j in 1:2) {
+sum_value[j] <- mean(tablets[, comb[j, i]])
+}
+D-bar[i] <- abs(sum_value[1] - sum_value[2])
+}
+for (i in 1:21) {
+for (j in 1:2) {
+sum_value[j] <- mean(tablets[, comb[j, i]])
+}
+D_bar[i] <- abs(sum_value[1] - sum_value[2])
+}
+D_bar
+star <- qtuckey(0.95, 7, df)*s_pooled/sqrt(J)
+star
+star <- qtuckey(0.95, 7, df)*s_pooled/sqrt(J)
+star <- qtukey(0.95, 7, df)*s_pooled/sqrt(J)
+star
+D_bar > star
+tablets[, 1]
+mean(tablets[, 1])
+mean(tablets[, 2])
+mean(tablets[, 1]) - mean(tablets[, 2])
+qtukey(0.95, 7, df)
+new_df <- data.frame(measurement = c(tablets1$Lab1, tablets1$Lab2,
+tablets1$Lab3, tablets1$Lab4,
+tablets1$Lab5, tablets1$Lab6,
+tablets1$Lab7),
+lab = rep(paste("lab", 1:7, sep=""), each=10))
+new_df <- data.frame(measurement = c(tablets$Lab1, tablets$Lab2,
+tablets$Lab3, tablets$Lab4,
+tablets$Lab5, tablets$Lab6,
+tablets$Lab7),
+lab = rep(paste("lab", 1:7, sep=""), each=10))
+new_df
+my_tukey <- TukeyHSD(aov(y ~ x, data = mydata))
+plot(my_tukey)
+?TuckeyHSD
+??TuckeyHSD
+my_tukey <- TukeyHSD(aov(y ~ x, data = new_df))
+my_tukey <- TukeyHSD(aov(measurement ~ lab, data = new_df))
+plot(my_tukey)
+par(las = 1)
+plot(my_tukey)
+par(las = 1, mar = c(5, 6, 4, 2))
+plot(my_tukey)
+min(1, 2)
+?anova
+type1 <- split(c(1.7 1.9 6.1 12.5 16.5 25.1 30.5 42.1 82.5), " ")
+type1 <- strsplit(c(1.7 1.9 6.1 12.5 16.5 25.1 30.5 42.1 82.5), " ")
+type1 <- numsplit(c(1.7 1.9 6.1 12.5 16.5 25.1 30.5 42.1 82.5), " ")
+type1 <- numsplit(c("1.7 1.9 6.1 12.5 16.5 25.1 30.5 42.1 82.5"), " ")
+type1 <- strsplit(c("1.7 1.9 6.1 12.5 16.5 25.1 30.5 42.1 82.5"), " ")
+type1
+as.numeric(type1)
+type1 <- strsplit(c("1.7 1.9 6.1 12.5 16.5 25.1 30.5 42.1 82.5"), " ")[[1]]
+as.numeric(type1)
+type1
+type1 <- as.numeric(type1)
+type1
+type2 <- strsplit(c("13.6 19.8 25.2 46.2 46.2 61.1"), " ")[[1]]
+type2 <- as.numeric(type2)
+type2
+type3 <- strsplit(c("13.4 20.9 25.1 29.7 46.9"), " ")[[1]]
+type3 <- as.numeric(type3)
+type3
+df_new <- data.frame(measurement = c(type1, type2, type3),
+lab = rep(paste("lab", 1:3, sep = ""), each = 10))
+lab = rep(paste("lab", 1:3, sep = ""), each = 9))
+df_new <- data.frame(measurement = c(type1, type2, type3),
+lab = rep(paste("lab", 1:3, sep = ""), each = 9))
+type <- c(type1, type2, type3)
+mean_types[i] <- mean(type[i])
+mean_types <- NULL
+for (i in 1:7) {
+mean_types[i] <- mean(type[i])
+}
+mean_types
+type[1]
+for (i in 1:3) {
+mean_types[i] <- mean(type[i])
+}
+mean_types
+mean_types <- NULL
+for (i in 1:3) {
+mean_types[i] <- mean(type[i])
+}
+mean_types
+mean(type1)
+mean(type2)
+mean(type3)
+mean(type[1])
+type[1]
+type <- c(type1, type2, type3)
+type[1]
+type
+type <- list(type1, type2, type3)
+type[1]
+mean_types[i] <- mean(type[1])
+for (i in 1:3) {
+mean_types[i] <- mean(type[1])
+}
+for (i in 1:3) {
+mean_types[i] <- mean(type[[1]])
+}
+mean_types
+for (i in 1:3) {
+mean_types[i] <- mean(type[[i]])
+}
+mean_types
+(type1 - mean_types)^2
+(type1 - mean_types[1])^2
+mean_types
+(type1 - mean_types[1])^2
+I1 <- (type1 - mean_types[1])^2
+I2 <- (type2 - mean_types[2])^2
+I3 <- (type3 - mean_types[3])^2
+ssw <- I1 + I2 + I3
+I1 <- (type1 - mean_types[1])^2
+I2 <- (type2 - mean_types[2])^2
+I3 <- (type3 - mean_types[3])^2
+ssw <- sum(I1, I2, I3)
+ssw
+ssw
+type1 <- c(3.03, 5.53, 5.60, 9.30, 9.92, 12.51, 12.95, 15.21, 16.04, 16.84)
+type2 <- c(3.19, 4.26, 4.47, 4.53, 4.67, 4.69, 12.78, 6.79, 9.37, 12.75)
+mean(type1)
+mean(type2)
+sd(type1)
+sd(type2)
+getwd()
+b <- NULL
+for (i in 2005:2013) {
+b[i-2004] <- as.numeric(as.Date(paste(i, 12, 31, sep = "-")) - as.Date(paste(i, 1, 1, sep = "-"))+1)
+}
+b
+setwd("/Users/Yoolim_Jin/Desktop/Project/data/google/unemployment")
+setwd("/Users/Yoolim_Jin/Desktop/Project/data/google/inflation")
+rel_freq('clean_inf_Nigeria.csv')
+relfreq <- function(file, data = "inflation") { #x is the clean data_frame file
+x <- read.csv(file)
+y <- NULL
+for (i in 2006:2013) {
+a <- which(x$from_year == i & x$to_year == i)
+b <- NULL
+for (j in 1:length(a)) {
+b[j] <- x[a[j], data]
+}
+sum1 <- sum(b*7)
+c <- setdiff(which(x$from_year == i | x$to_year == i), a)
+d <- NULL
+for (k in 1:length(c)) {
+if(x[c[k], 'from_year'] == i) {
+d[k] <- (31 - x[c[k], 'from_day'] + 1) * x[c[k], data]
+} else if(x[c[k], 'to_year'] == i) {
+d[k] <- x[c[k], 'from_day'] * x[c[k], data]
+}
+}
+sum2 <- sum(d)
+e <- as.numeric(as.Date(paste(i, 12, 31, sep = '-')) - as.Date(paste(i, 1, 1, sep = '-')) + 1)
+y[i - 2005] <- (sum1 + sum2)/e
+}
+names(y) <- 2006:2013
+return(y)
+}
+setwd("/Users/Yoolim_Jin/Desktop/Project/data/google/inflation")
+rel_freq('clean_inf_Nigeria.csv')
+rel_freq <- function(file, data = "inflation") { #x is the clean data_frame file
+x <- read.csv(file)
+y <- NULL
+for (i in 2006:2013) {
+a <- which(x$from_year == i & x$to_year == i)
+b <- NULL
+for (j in 1:length(a)) {
+b[j] <- x[a[j], data]
+}
+sum1 <- sum(b*7)
+c <- setdiff(which(x$from_year == i | x$to_year == i), a)
+d <- NULL
+for (k in 1:length(c)) {
+if(x[c[k], 'from_year'] == i) {
+d[k] <- (31 - x[c[k], 'from_day'] + 1) * x[c[k], data]
+} else if(x[c[k], 'to_year'] == i) {
+d[k] <- x[c[k], 'from_day'] * x[c[k], data]
+}
+}
+sum2 <- sum(d)
+e <- as.numeric(as.Date(paste(i, 12, 31, sep = '-')) - as.Date(paste(i, 1, 1, sep = '-')) + 1)
+y[i - 2005] <- (sum1 + sum2)/e
+}
+names(y) <- 2006:2013
+return(y)
+}
+setwd("/Users/Yoolim_Jin/Desktop/Project/data/google/inflation")
+rel_freq('clean_inf_Nigeria.csv')
+rel_freq('clean_inf_Canada.csv')
+rel_freq('clean_inf_South_Africa.csv')
+rel_freq('clean_inf_NZ.csv')
+rel_freq('clean_inf_US.csv')
+rel_freq('clean_inf_US.csv', data = "inflation")
+setwd("/Users/Yoolim_Jin/Desktop/Project/data/google/unemployment")
+rel_freq('clean_unemp_Nigeria.csv', data = 'unemployment')
+rel_freq('clean_unemp_Canada.csv', data = 'unemployment')
+rel_freq('clean_unemp_South_Africa.csv', data = 'unemployment')
+rel_freq('clean_unemp_NZ.csv', data = 'unemployment')
+rel_freq('clean_unemp_US.csv', data = 'unemployment')
+setwd("/Users/Yoolim_Jin/Desktop/Project/data/google/inflation")
+rel_freq('clean_inf_Nigeria.csv', data = 'inflation')
+rel_freq('clean_inf_Canada.csv', data = 'inflation')
+rel_freq('clean_inf_South_Africa.csv', data = 'inflation')
+rel_freq('clean_inf_NZ.csv', data = 'inflation')
+rel_freq('clean_inf_US.csv', data = 'inflation')
+#unemployment
+setwd("/Users/Yoolim_Jin/Desktop/Project/data/google/unemployment")
+rel_freq('clean_unemp_Nigeria.csv', data = 'unemployment')
+rel_freq('clean_unemp_Canada.csv', data = 'unemployment')
+rel_freq('clean_unemp_South_Africa.csv', data = 'unemployment')
+rel_freq('clean_unemp_NZ.csv', data = 'unemployment')
+rel_freq('clean_unemp_US.csv', data = 'unemployment')
+rel_freq('clean_unemp_US.csv', data = 'unemployment')

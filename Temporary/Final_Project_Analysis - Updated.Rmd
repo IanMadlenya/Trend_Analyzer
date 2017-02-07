@@ -1,0 +1,419 @@
+---
+title: "Final_Project_Analysis"
+author: "Yoolim Jin, 22612692"
+date: "2015년 12월 9일"
+output: pdf_document
+---
+Complete function for taking the weighted average of relative frequency per year
+```{r}
+rel_freq <- function(file, data = "inflation") { #x is the clean data_frame file
+  x <- read.csv(file)
+  y <- NULL
+  for (i in 2006:2013) {
+    a <- which(x$from_year == i & x$to_year == i)
+    b <- NULL
+    for (j in 1:length(a)) {
+      b[j] <- x[a[j], data]
+    } 
+    sum1 <- sum(b*7)
+    c <- setdiff(which(x$from_year == i | x$to_year == i), a)
+    d <- NULL
+    for (k in 1:length(c)) {
+      if(x[c[k], 'from_year'] == i) {
+        d[k] <- (31 - x[c[k], 'from_day'] + 1) * x[c[k], data]
+      } else if(x[c[k], 'to_year'] == i) {
+        d[k] <- x[c[k], 'from_day'] * x[c[k], data]
+      }
+    } 
+    sum2 <- sum(d)
+    e <- as.numeric(as.Date(paste(i, 12, 31, sep = '-')) - as.Date(paste(i, 1, 1, sep = '-')) + 1)
+    y[i - 2005] <- (sum1 + sum2)/e
+  } 
+  names(y) <- 2006:2013
+  return(y)
+}
+```
+Store the base data
+```{r}
+#World Inflation
+setwd("/Users/Ispyarion/Desktop/Project/data/Worldbank/Inflation")
+world_inflation <- read.csv("clean_World_Inflation.csv", check.names = FALSE, row.names = 1)
+#World Unemployment
+setwd("/Users/Ispyarion/Desktop/Project/data/Worldbank/Unemployment")
+world_unemployment <- read.csv("clean_world_unemployment.csv", check.names = FALSE, row.names = 1)
+#Google Inflation
+setwd("/Users/Ispyarion/Desktop/Project/data/google/inflation")
+GNig_inf <- rel_freq('clean_inf_Nigeria.csv', data = 'inflation')
+GCan_inf <- rel_freq('clean_inf_Canada.csv', data = 'inflation')
+GSA_inf <- rel_freq('clean_inf_South_Africa.csv', data = 'inflation')
+GNZ_inf <- rel_freq('clean_inf_NZ.csv', data = 'inflation')
+GUS_inf <- rel_freq('clean_inf_US.csv', data = 'inflation')
+#Google Unemployment
+setwd("/Users/Ispyarion/Desktop/Project/data/google/unemployment")
+GNig_unemp <- rel_freq('clean_unemp_Nigeria.csv', data = 'unemployment')
+GCan_unemp <- rel_freq('clean_unemp_Canada.csv', data = 'unemployment')
+GSA_unemp <- rel_freq('clean_unemp_South_Africa.csv', data = 'unemployment')
+GNZ_unemp <- rel_freq('clean_unemp_NZ.csv', data = 'unemployment')
+GUS_unemp<- rel_freq('clean_unemp_US.csv', data = 'unemployment')
+```
+1) See the relationship between Unemployment and Inflation between different countries using World Bank data
+```{r}
+par(mar = c(5, 4, 4, 2) + 0.1)
+#Canada
+plot(world_unemployment$Canada, world_inflation$Canada, main = "Unemployment vs. Inflation (Canada)", 
+     xlab = "Canada Unemployment Rate", ylab = "Canada Inflation Rate", pch = 15)
+abline(lm(world_inflation$Canada~world_unemployment$Canada), col = 'red', lwd = 4)
+cor(world_unemployment$Canada, world_inflation$Canada)
+#New Zealand
+plot(world_unemployment$`New Zealand`, world_inflation$`New Zealand`, 
+     main = "Unemployment vs. Inflation (New Zealand)", 
+     xlab = "New Zealand Unemployment Rate", ylab = "New Zealand Inflation Rate", pch = 15)
+abline(lm(world_inflation$`New Zealand`~world_unemployment$`New Zealand`), col = 'red', lwd = 4)
+cor(world_unemployment$`New Zealand`, world_inflation$`New Zealand`)
+#United States
+plot(world_unemployment$`United States`, world_inflation$`United States`, 
+     main = "Unemployment vs. Inflation (United States)", 
+     xlab = "US Unemployment Rate", ylab = "US Inflation Rate", pch = 15)
+abline(lm(world_inflation$`United States`~world_unemployment$`United States`), col = 'red', lwd = 4)
+cor(world_unemployment$`United States`, world_inflation$`United States`)
+#Nigeria
+plot(world_unemployment$Nigeria, world_inflation$Nigeria,
+     main = "Unemployment vs. Inflation (Nigeria)", 
+     xlab = "Nigeria Unemployment Rate", ylab = "Nigeria Inflation Rate", pch = 15)
+abline(lm(world_inflation$Nigeria~world_unemployment$Nigeria), col = 'red', lwd = 4)
+cor(world_unemployment$Nigeria, world_inflation$Nigeria)
+#South Africa
+plot(world_unemployment$`South Africa`, world_inflation$`South Africa`, 
+     main = "Unemployment vs. Inflation (South Africa)", 
+     xlab = "South Africa Unemployment Rate", ylab = "South Africa Inflation Rate", pch = 15)
+abline(lm(world_inflation$`South Africa`~world_unemployment$`South Africa`), col = 'red', lwd = 4)
+cor(world_unemployment$`South Africa`, world_inflation$`South Africa`)
+```
+
+2)Graphical Comparisons(Unemployment)
+```{r}
+#United States
+plot.new()
+par(mar=c(5, 4, 4, 5) + 0.1)
+plot(world_unemployment$`United States`, xlab = "", ylab = "", main = "US Unemployment Comparison",
+     axes = FALSE, type = "b", pch = 16)
+axis(2, at = seq(4, 10, by = 1), col="black",las=1)
+mtext("US Unemployment",side=2,line=2.5)
+box()
+par(new = TRUE)
+plot(GUS_unemp, pch = 15, type = 'b', xlab = '', ylab = '', main = '', axes = FALSE, col = 'red')
+axis(4, at = seq(20, 65, by = 5), col = 'red', col.axis = 'red', las = 1)
+mtext("Google Trend", side=4,col="red",line=2.5) 
+axis(1, at = 1:8, labels = seq(2006, 2013, by = 1), las = 1)
+mtext("Years", side=1, col="black",line=2.5) 
+legend("topleft",legend=c("US Actual","Google Trend"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"), cex = 0.9)
+#Nigeria
+plot.new()
+par(mar=c(5, 4, 4, 5) + 0.1)
+plot(world_unemployment$`Nigeria`, xlab = "", ylab = "", main = "Nigeria Unemployment Comparison",
+     axes = FALSE, type = "b", pch = 16)
+axis(2, at = seq(7.5, 7.6, by = 0.05), col="black",las=1)
+mtext("Nigeria Unemployment",side=2,line=2.5)
+box()
+par(new = TRUE)
+plot(GNig_unemp, pch = 15, type = 'b', xlab = '', ylab = '', main = '', axes = FALSE, col = 'red')
+axis(4, at = seq(0, 40, by = 5), col = 'red', col.axis = 'red', las = 1)
+mtext("Google Trend", side=4,col="red",line=2.5) 
+axis(1, at = 1:8, labels = seq(2006, 2013, by = 1), las = 1)
+mtext("Years", side=1, col="black",line=2.5) 
+legend("left",legend=c("Nigeria Actual","Google Trend"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"))
+#South Africa
+plot.new()
+par(mar=c(5, 4, 4, 5) + 0.1)
+plot(world_unemployment$`South Africa`, xlab = "", ylab = "", main = "South Africa Unemployment Comparison",
+     axes = FALSE, type = "b", pch = 16)
+axis(2, at = seq(22.5, 25.5, by = 0.5), col="black",las=1)
+mtext("South Africa Unemployment",side=2,line=2.5)
+box()
+par(new = TRUE)
+plot(GSA_unemp, pch = 15, type = 'b', xlab = '', ylab = '', main = '', axes = FALSE, col = 'red')
+axis(4, at = seq(10, 40, by = 5), col = 'red', col.axis = 'red', las = 1)
+mtext("Google Trend", side=4,col="red",line=2.5) 
+axis(1, at = 1:8, labels = seq(2006, 2013, by = 1), las = 1)
+mtext("Years", side=1, col="black",line=2.5) 
+legend("bottomright",legend=c("South Africa Actual","Google Trend"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"))
+#Canada
+plot.new()
+par(mar=c(5, 4, 4, 5) + 0.1)
+plot(world_unemployment$`Canada`, xlab = "", ylab = "", main = "Canada Unemployment Comparison",
+     axes = FALSE, type = "b", pch = 16)
+axis(2, at = seq(6, 8, by = 0.5), col="black",las=1)
+mtext("South Africa Unemployment",side=2,line=2.5)
+box()
+par(new = TRUE)
+plot(GCan_unemp, pch = 15, type = 'b', xlab = '', ylab = '', main = '', axes = FALSE, col = 'red')
+axis(4, at = seq(10, 60, by = 5), col = 'red', col.axis = 'red', las = 1)
+mtext("Google Trend", side=4,col="red",line=2.5) 
+axis(1, at = 1:8, labels = seq(2006, 2013, by = 1), las = 1)
+mtext("Years", side=1, col="black",line=2.5) 
+legend("topleft",legend=c("Canada Actual","Google Trend"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"), cex = 0.85)
+#New Zealand
+plot.new()
+par(mar=c(5, 4, 4, 5) + 0.1)
+plot(world_unemployment$`New Zealand`, xlab = "", ylab = "", main = "New Zealand Unemployment Comparison",
+     axes = FALSE, type = "b", pch = 16)
+axis(2, at = seq(4, 7, by = 0.5), col="black",las=1)
+mtext("New Zealand Unemployment",side=2,line=2.5)
+box()
+par(new = TRUE)
+plot(GCan_unemp, pch = 15, type = 'b', xlab = '', ylab = '', main = '', axes = FALSE, col = 'red')
+axis(4, at = seq(15, 60, by = 5), col = 'red', col.axis = 'red', las = 1)
+mtext("Google Trend", side=4,col="red",line=2.5) 
+axis(1, at = 1:8, labels = seq(2006, 2013, by = 1), las = 1)
+mtext("Years", side=1, col="black",line=2.5) 
+legend("topleft",legend=c("New Zealand Actual","Google Trend"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"),
+       cex = 0.7)
+```
+2)Graphical Comparison(Inflation)
+```{r}
+#United States
+plot.new()
+par(mar=c(5, 4, 4, 5) + 0.1)
+plot(world_inflation$`United States`, xlab = "", ylab = "", main = "US Inflation Comparison",
+     axes = FALSE, type = "b", pch = 16)
+axis(2, at = seq(0, 4, by = 1), col="black",las=1)
+mtext("US Inflation",side=2,line=2.5)
+box()
+par(new = TRUE)
+plot(GUS_inf, pch = 15, type = 'b', xlab = '', ylab = '', main = '', axes = FALSE, col = 'red')
+axis(4, at = seq(35, 60, by = 5), col = 'red', col.axis = 'red', las = 1)
+mtext("Google Trend", side=4,col="red",line=2.5) 
+axis(1, at = 1:8, labels = seq(2006, 2013, by = 1), las = 1)
+mtext("Years", side=1, col="black",line=2.5) 
+legend("bottomleft",legend=c("US Actual","Google Trend"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"), cex = 0.9)
+#Nigeria
+plot.new()
+par(mar=c(5, 4, 4, 5) + 0.1)
+plot(world_inflation$`Nigeria`, xlab = "", ylab = "", main = "Nigeria Inflation Comparison",
+     axes = FALSE, type = "b", pch = 16)
+axis(2, at = seq(5, 15, by = 2), col="black",las=1)
+mtext("Nigeria Inflation",side=2,line=2.5)
+box()
+par(new = TRUE)
+plot(GNig_inf, pch = 15, type = 'b', xlab = '', ylab = '', main = '', axes = FALSE, col = 'red')
+axis(4, at = seq(5, 30, by = 5), col = 'red', col.axis = 'red', las = 1)
+mtext("Google Trend", side=4,col="red",line=2.5) 
+axis(1, at = 1:8, labels = seq(2006, 2013, by = 1), las = 1)
+mtext("Years", side=1, col="black",line=2.5) 
+legend("topleft",legend=c("Nigeria Actual","Google Trend"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"), cex = 0.9)
+#South Africa
+plot.new()
+par(mar=c(5, 4, 4, 5) + 0.1)
+plot(world_inflation$`South Africa`, xlab = "", ylab = "", main = "South Africa Inflation Comparison",
+     axes = FALSE, type = "b", pch = 16)
+axis(2, at = seq(4, 12, by = 2), col="black",las=1)
+mtext("South Africa Inflation",side=2,line=2.5)
+box()
+par(new = TRUE)
+plot(GSA_inf, pch = 15, type = 'b', xlab = '', ylab = '', main = '', axes = FALSE, col = 'red')
+axis(4, at = seq(10, 35, by = 5), col = 'red', col.axis = 'red', las = 1)
+mtext("Google Trend", side=4,col="red",line=2.5) 
+axis(1, at = 1:8, labels = seq(2006, 2013, by = 1), las = 1)
+mtext("Years", side=1, col="black",line=2.5) 
+legend("topright",legend=c("US Actual","Google Trend"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"), cex = 0.8)
+#Canada
+plot.new()
+par(mar=c(5, 4, 4, 5) + 0.1)
+plot(world_inflation$`Canada`, xlab = "", ylab = "", main = "Canada Inflation Comparison",
+     axes = FALSE, type = "b", pch = 16)
+axis(2, at = seq(0.5, 3, by = 0.5), col="black",las=1)
+mtext("US Canada",side=2,line=2.5)
+box()
+par(new = TRUE)
+plot(GCan_inf, pch = 15, type = 'b', xlab = '', ylab = '', main = '', axes = FALSE, col = 'red')
+axis(4, at = seq(32, 44, by = 4), col = 'red', col.axis = 'red', las = 1)
+mtext("Google Trend", side=4,col="red",line=2.5) 
+axis(1, at = 1:8, labels = seq(2006, 2013, by = 1), las = 1)
+mtext("Years", side=1, col="black",line=2.5) 
+legend("bottomleft",legend=c("Canada Actual","Google Trend"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"),
+       cex = 0.7)
+#New Zealand
+plot.new()
+par(mar=c(5, 4, 4, 5) + 0.1)
+plot(world_inflation$`New Zealand`, xlab = "", ylab = "", main = "New Zealand Inflation Comparison",
+     axes = FALSE, type = "b", pch = 16)
+axis(2, at = seq(0, 4.5, by = 0.5), col="black",las=1)
+mtext("New Zealand Inflation",side=2,line=2.5)
+box()
+par(new = TRUE)
+plot(GNZ_inf, pch = 15, type = 'b', xlab = '', ylab = '', main = '', axes = FALSE, col = 'red')
+axis(4, at = seq(2, 16, by = 2), col = 'red', col.axis = 'red', las = 1)
+mtext("Google Trend", side=4,col="red",line=2.5) 
+axis(1, at = 1:8, labels = seq(2006, 2013, by = 1), las = 1)
+mtext("Years", side=1, col="black",line=2.5) 
+legend("topleft",legend=c("US Actual","Google Trend"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"),
+       cex = 0.65)
+```
+3) See the relationship between Unemployment and Inflation between different countries using Google data
+```{r}
+#United States
+par(mar = c(5, 4, 4, 2) + 0.1)
+plot(GUS_unemp, GUS_inf, 
+     main = "Google Unemployment vs. Inflation (United States)", 
+     xlab = "US Unemployment Search Freq", ylab = "US Inflation Search Freq", pch = 16)
+abline(lm(GUS_inf~GUS_unemp), col = 'red', lwd = 4)
+cor(GUS_inf, GUS_unemp)
+#Nigeria
+par(mar = c(5, 4, 4, 2) + 0.1)
+plot(GNig_unemp, GNig_inf, 
+     main = "Google Unemployment vs. Inflation (Nigeria)", 
+     xlab = "Nigeria Unemployment Search Freq", ylab = "Nigeria Inflation Search Freq", pch = 16)
+abline(lm(GNig_inf~GNig_unemp), col = 'red', lwd = 4)
+cor(GNig_inf, GNig_unemp)
+#South Africa
+par(mar = c(5, 4, 4, 2) + 0.1)
+plot(GSA_unemp, GSA_inf, 
+     main = "Google Unemployment vs. Inflation (South Africa)", 
+     xlab = "South Africa Unemployment Search Freq", ylab = "South Africa Inflation Search Freq", pch = 16)
+abline(lm(GSA_inf~GSA_unemp), col = 'red', lwd = 4)
+cor(GSA_inf, GSA_unemp)
+#Canada
+par(mar = c(5, 4, 4, 2) + 0.1)
+plot(GCan_unemp, GCan_inf, 
+     main = "Google Unemployment vs. Inflation (Canada)", 
+     xlab = "Canada Unemployment Search Freq", ylab = "Canada Inflation Search Freq", pch = 16)
+abline(lm(GCan_inf~GCan_unemp), col = 'red', lwd = 4)
+cor(GCan_inf, GCan_unemp)
+#New Zealand
+par(mar = c(5, 4, 4, 2) + 0.1)
+plot(GNZ_unemp, GNZ_inf, 
+     main = "Google Unemployment vs. Inflation (New Zealand)", 
+     xlab = "New Zealand Unemployment Search Freq", ylab = "New Zealand Inflation Search Freq", pch = 16)
+abline(lm(GNZ_inf~GNZ_unemp), col = 'red', lwd = 4)
+cor(GNZ_inf, GNZ_unemp)
+
+```
+4)Graphical Comparison of Phillips Curve (World Data vs. Google)
+```{r}
+#United States
+plot.new()
+par(mar = c(5, 4, 5.5, 5) + 0.1)
+plot(world_unemployment$`United States`, world_inflation$`United States`, 
+     main = "", 
+     xlab = "", ylab = "", pch = 15, axes = FALSE)
+abline(lm(world_inflation$`United States`~world_unemployment$`United States`), col = 'black', lwd = 4)
+axis(2, at = seq(0, 4, by = 1), col="black",las=1)
+mtext("US Inflation", side=2, col="black",line=2) 
+axis(1, at = seq(5, 9, by = 1), col="black",las=1)
+mtext("US Unemployment", side=1, col="black",line=2) 
+box()
+par(new = TRUE)
+plot(GUS_unemp, GUS_inf,
+     xlab = "", ylab = "", pch = 16, axes = FALSE, col = "red", main = '')
+axis(4, at = seq(35, 55, by = 5), col="red",las=1, col.axis = 'red')
+mtext("Google Inflation", side=4, col="red",line=2) 
+axis(3, at = seq(20, 60, by = 10), col="red",las=1, col.axis = 'red')
+mtext("Google Unemployment", side=3, col="red",line=2) 
+abline(lm(GUS_inf~GUS_unemp), col = 'red', lwd = 4)
+legend("bottomleft",legend=c("US","Google"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"))
+title("US Phillips Curve (Actual vs. Google)", line = 3.5)
+#Nigeria
+plot.new()
+par(mar = c(5, 4, 5.5, 5) + 0.1)
+plot(world_unemployment$`Nigeria`, world_inflation$`Nigeria`, 
+     main = "", 
+     xlab = "", ylab = "", pch = 15, axes = FALSE)
+abline(lm(world_inflation$`Nigeria`~world_unemployment$`Nigeria`), col = 'black', lwd = 4)
+axis(2, at = seq(6, 14, by = 2), col="black",las=1)
+mtext("Nigeria Inflation", side=2, col="black",line=2) 
+axis(1, at = seq(7.5, 7.6, by = 0.02), col="black",las=1)
+mtext("Nigeria Unemployment", side=1, col="black",line=2) 
+box()
+par(new = TRUE)
+plot(GNig_unemp, GNig_inf,
+     xlab = "", ylab = "", pch = 16, axes = FALSE, col = "red", main = '')
+axis(4, at = seq(5, 30, by = 5), col="red",las=1, col.axis = 'red')
+mtext("Google Inflation", side=4, col="red",line=2) 
+axis(3, at = seq(5, 40, by = 5), col="red",las=1, col.axis = 'red')
+mtext("Google Unemployment", side=3, col="red",line=2) 
+abline(lm(GNig_inf~GNig_unemp), col = 'red', lwd = 4)
+legend("bottom",legend=c("Nigeria","Google"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"))
+title("Nigeria Phillips Curve (Actual vs. Google)", line = 3.5)
+#South Africa
+plot.new()
+par(mar = c(5, 4, 5.5, 5) + 0.1)
+plot(world_unemployment$`South Africa`, world_inflation$`South Africa`, 
+     main = "", 
+     xlab = "", ylab = "", pch = 15, axes = FALSE)
+abline(lm(world_inflation$`South Africa`~world_unemployment$`South Africa`), col = 'black', lwd = 4)
+axis(2, at = seq(4, 12, by = 2), col="black",las=1)
+mtext("South Africa Inflation", side=2, col="black",line=2) 
+axis(1, at = seq(22, 25, by = 0.5), col="black",las=1)
+mtext("South Africa Unemployment", side=1, col="black",line=2) 
+box()
+par(new = TRUE)
+plot(GSA_unemp, GSA_inf,
+     xlab = "", ylab = "", pch = 16, axes = FALSE, col = "red", main = '')
+axis(4, at = seq(5, 35, by = 5), col="red",las=1, col.axis = 'red')
+mtext("Google Inflation", side=4, col="red",line=2) 
+axis(3, at = seq(10, 35, by = 5), col="red",las=1, col.axis = 'red')
+mtext("Google Unemployment", side=3, col="red",line=2) 
+abline(lm(GSA_inf~GSA_unemp), col = 'red', lwd = 4)
+legend("topleft",legend=c("South Africa","Google"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"), cex = 0.5)
+title("South Africa Phillips Curve (Actual vs. Google)", line = 3.5)
+#Canada
+plot.new()
+par(mar = c(5, 4, 5.5, 5) + 0.1)
+plot(world_unemployment$`Canada`, world_inflation$`Canada`, 
+     main = "", 
+     xlab = "", ylab = "", pch = 15, axes = FALSE)
+abline(lm(world_inflation$`Canada`~world_unemployment$`Canada`), col = 'black', lwd = 4)
+axis(2, at = seq(0.5, 3, by = 0.5), col="black",las=1)
+mtext("Canada Inflation", side=2, col="black",line=2) 
+axis(1, at = seq(6, 8, by = 1), col="black",las=1)
+mtext("Canada Unemployment", side=1, col="black",line=2) 
+box()
+par(new = TRUE)
+plot(GCan_unemp, GCan_inf,
+     xlab = "", ylab = "", pch = 16, axes = FALSE, col = "red", main = '')
+axis(4, at = seq(32, 44, by = 2), col="red",las=1, col.axis = 'red')
+mtext("Google Inflation", side=4, col="red",line=2) 
+axis(3, at = seq(20, 50, by = 10), col="red",las=1, col.axis = 'red')
+mtext("Google Unemployment", side=3, col="red",line=2) 
+abline(lm(GCan_inf~GCan_unemp), col = 'red', lwd = 4)
+legend("topright",legend=c("US","Google"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"))
+title("Canada Phillips Curve (Actual vs. Google)", line = 3.5)
+#New Zealand
+plot.new()
+par(mar = c(5, 4, 5.5, 5) + 0.1)
+plot(world_unemployment$`New Zealand`, world_inflation$`New Zealand`, 
+     main = "", 
+     xlab = "", ylab = "", pch = 15, axes = FALSE)
+abline(lm(world_inflation$`New Zealand`~world_unemployment$`New Zealand`), col = 'black', lwd = 4)
+axis(2, at = seq(0, 4, by = 1), col="black",las=1)
+mtext("New Zealand Inflation", side=2, col="black",line=2) 
+axis(1, at = seq(4, 7, by = 0.5), col="black",las=1)
+mtext("New Zealand Unemployment", side=1, col="black",line=2) 
+box()
+par(new = TRUE)
+plot(GNZ_unemp, GNZ_inf,
+     xlab = "", ylab = "", pch = 16, axes = FALSE, col = "red", main = '')
+axis(4, at = seq(5, 15, by = 5), col="red",las=1, col.axis = 'red')
+mtext("Google Inflation", side=4, col="red",line=2) 
+axis(3, at = seq(0, 50, by = 5), col="red",las=1, col.axis = 'red')
+mtext("Google Unemployment", side=3, col="red",line=2) 
+abline(lm(GNZ_inf~GNZ_unemp), col = 'red', lwd = 4)
+legend("bottom",legend=c("New Zealand","Google"),
+       text.col=c("black","red"),pch=c(16,15),col=c("black","red"))
+title("New Zealand Phillips Curve (Actual vs. Google)", line = 3.5)
+```
+
