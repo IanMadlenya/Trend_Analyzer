@@ -1,2 +1,2 @@
 # Trend_Analyzer
-Rudimentary Analysis of Google Trends and visualization of data
+Rudimentary Analysis of Google Trends and visualization of using R
