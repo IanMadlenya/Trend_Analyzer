@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Google Trend Analyzer
 ### Introduction
 Rudimentary Analysis of Google Trends and its visualization of using R.  
@@ -33,3 +34,9 @@ We've discovered a correlation between google searches and key economic variable
   - file - inputs 'cleaned' data file from above Functions
 
 ##### + 200 lines of plot code
+=======
+# Trend_Analyzer
+Rudimentary Analysis of Google Trends and visualization of using R  
+Full and final report is under ./Report/Final_Report.pdf and its content is written by Audrey Webb, Victor Yoolim Jin, Arion Thai, and Mehma Bhasin.  
+The rmd file for generating the report, as well as its codes for data cleansing, analysis, and visualization, are written by Victor Yoolim Jin and Arion Thai.  
+>>>>>>> 8cbf21bec70e0756acdc3f00b8b81166c908d0fd
