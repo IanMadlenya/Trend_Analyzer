@@ -1,9 +1,11 @@
 # Google Trend Analyzer
 ### Introduction
-Rudimentary Analysis of Google Trends and its visualization of using R.    
-The Final report can be found [here](https://github.com/VictoryJin/Trend_Analyzer/blob/master/Report/Final_Report_.pdf), or under Report/Final_Report_.pdf. The source codes for cleansing and visualization are found [here](https://github.com/VictoryJin/Trend_Analyzer/blob/master/Code).  
+Rudimentary Analysis of Google Trends and its visualization of using R.  
+This was a final class project from a UC Berkeley class in *Concepts in Computing with Data*  
+The Final report can be found [here](https://github.com/VictoryJin/Trend_Analyzer/blob/master/Report/Final_Report_.pdf), or under Report/Final_Report_.pdf.  
+The source codes for cleansing and visualization are found [here](https://github.com/VictoryJin/Trend_Analyzer/blob/master/Code).  
 The report content is written by **Audrey Webb, Victor Jin, Arion Thai, and Mehma Bhasin.**  
-The rmd file for generating the report, as well as its codes for data cleansing, analysis, and visualization, is written by Victor Jin and Arion Thai.  
+The .rmd file for generating the report, as well as its codes for data cleansing, analysis, and visualization, is written by Victor Jin and Arion Thai.  
 ### Data extraction
 Economic data from *United States, Canada, South Africa, and Ireland* were extracted from [WorldBank](http://data.worldbank.org/), and the search frequency from [Google Trends](https://www.google.com/trends/).  
 The two main variables in question were "unemployment" and "inflation", and we were curious whether the search frequency in Google had any correlation with actual economic trends over time.
