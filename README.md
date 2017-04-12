@@ -32,4 +32,4 @@ We've discovered a correlation between google searches and key economic variable
 * rel_freq(file, data = "data") - parses data from the 'cleaned' data file and finds averages of each year
   - file - inputs 'cleaned' data file from above Functions
 
-##### + 200 lines of plot code
+##### [+ 200 lines of plot code](https://github.com/VictoryJin/Trend_Analyzer/tree/master/Code/Analysis)
