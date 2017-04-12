@@ -15,7 +15,9 @@ The first challenge was choosing the countries that would best represent the act
 The next challenge was to find countries that had used Google frequently, since countries that has low prevalence of Google will not display accurate data. In the end, we chose our four countries by filtering the top 4 countries that had the most search frequency for the economic terms of interest.  
 
 ### Conclusions
-![alt tag](https://github.com/VictoryJin/Trend_Analyzer/blob/master/Images/US%20Unemployment%20Comparison.png)  
+<p align="center">
+  <img src="https://github.com/VictoryJin/Trend_Analyzer/blob/master/Images/US%20Unemployment%20Comparison.png" alt="Unemployment in US vs. Google"/>
+</p>
 We've discovered a correlation between google searches and key economic variables, but only so in countries that already use Google widely as its primary search engine. The more frequently Google is used by users, the more prevalent the variation in search terms explaining the variation in economic factors.
 
 ### Limitations and Possible Improvements  
