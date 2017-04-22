@@ -1,7 +1,6 @@
 # Google Trend Analyzer
 ### Introduction
-Rudimentary Analysis of Google Trends and its visualization of using R.  
-This was a final class project from a UC Berkeley class in *Concepts in Computing with Data*  
+Rudimentary Analysis of Google Trends and its visualization of using R.   
 The Final report can be found [here](https://github.com/VictoryJin/Trend_Analyzer/blob/master/Report/Final_Report_.pdf), or under Report/Final_Report_.pdf.  
 The source codes for cleansing and visualization are found [here](https://github.com/VictoryJin/Trend_Analyzer/blob/master/Code).  
 The report content is written by **Audrey Webb, Victor Jin, Arion Thai, and Mehma Bhasin.**  
